@@ -66,10 +66,11 @@ class PolicyJsonFileGenerator extends AnyFunSuite {
     val generatedStr = mapper.writerWithDefaultPrettyPrinter()
       .writeValueAsString(servicePolicies)
 
+    println("Generated JSON:")
+    println(generatedStr)
+
     if (sys.env.get("KYUUBI_UPDATE").contains("1")) {
-      // scalastyle:off println
       println(s"Writing ranger policies to $policyFileName.")
-      // scalastyle:on println
       Files.write(
         policyFilePath,
         generatedStr.getBytes(StandardCharsets.UTF_8),
