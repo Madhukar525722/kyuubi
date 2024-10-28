@@ -80,12 +80,22 @@ class KyuubiOperationPerGroupSuite extends WithKyuubiServer with SparkQueryTests
 
   test("ensure preferred group is chosen from list of groups") {
     withSessionConf(Map("hive.server2.proxy.user" -> "user1"))(Map(
-      KyuubiConf.PREFERRED_GROUP.key -> "group_tt"))(Map.empty) {
+      KyuubiConf.PREFERRED_GROUPS.key -> "test,group_tt,testGG"))(Map.empty) {
       withJdbcStatement() { statement =>
         val res = statement.executeQuery("set spark.app.name")
         assert(res.next())
         val engineName = res.getString("value")
         assert(engineName.startsWith(s"kyuubi_GROUP_${conf.get(KyuubiConf.ENGINE_TYPE)}_group_tt"))
+      }
+    }
+
+    withSessionConf(Map("hive.server2.proxy.user" -> "user1"))(Map(
+      KyuubiConf.PREFERRED_GROUPS.key -> "test"))(Map.empty) {
+      withJdbcStatement() { statement =>
+        val res = statement.executeQuery("set spark.app.name")
+        assert(res.next())
+        val engineName = res.getString("value")
+        assert(engineName.startsWith(s"kyuubi_GROUP_${conf.get(KyuubiConf.ENGINE_TYPE)}_testGG"))
       }
     }
   }

@@ -31,21 +31,25 @@ import org.apache.kyuubi.plugin.GroupProvider
  */
 class HadoopGroupProvider extends GroupProvider with Logging {
   override def primaryGroup(user: String, sessionConf: JMap[String, String]): String = {
-    val preferredGroup: Option[String] = if (sessionConf != null) {
-      Option(sessionConf.get(KyuubiConf.PREFERRED_GROUP.key))
+    val preferredGroups: Option[Seq[String]] = if (sessionConf != null) {
+      Option(sessionConf.get(KyuubiConf.PREFERRED_GROUPS.key)).map(_.split(",").toSeq)
     } else {
       None
     }
 
     val userGroups: Array[String] = groups(user, sessionConf)
 
-    val primaryGroup = preferredGroup match {
-      case Some(group) if userGroups.contains(group) => group
+    val primaryGroup = preferredGroups match {
+      case Some(groups) =>
+        groups.find(userGroups.contains) match {
+          case Some(group) => group
+          case None => userGroups.headOption.getOrElse {
+              throw new NoSuchElementException("No groups available for the user")
+            }
+        }
       case None => userGroups.headOption.getOrElse {
           throw new NoSuchElementException("No groups available for the user")
         }
-      case Some(group) =>
-        throw new IllegalArgumentException(s"User is not part of the preferred group: $group")
     }
     primaryGroup
   }
