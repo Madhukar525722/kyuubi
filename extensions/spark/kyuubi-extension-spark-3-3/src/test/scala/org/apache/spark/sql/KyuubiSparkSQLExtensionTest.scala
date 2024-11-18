@@ -86,7 +86,7 @@ trait KyuubiSparkSQLExtensionTest extends QueryTest
       .set("spark.hadoop.hive.exec.dynamic.partition.mode", "nonstrict")
       .set("spark.hadoop.hive.metastore.client.capability.check", "false")
       .set(
-        ConfVars.METASTORECONNECTURLKEY.varname,
+        "hive.metastore.uris",
         s"jdbc:derby:;databaseName=$metastorePath;create=true")
       .set(StaticSQLConf.WAREHOUSE_PATH, warehousePath)
       .set("spark.ui.enabled", "false")

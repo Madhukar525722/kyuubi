@@ -35,7 +35,7 @@ trait SparkListenerExtensionTest {
       .master("local")
       .config("spark.ui.enabled", "false")
       .config(
-        ConfVars.METASTORECONNECTURLKEY.varname,
+        "hive.metastore.uris",
         s"jdbc:derby:;databaseName=$metastorePath;create=true")
       .config("spark.sql.catalogImplementation", catalogImpl)
       .config(StaticSQLConf.WAREHOUSE_PATH.key, warehousePath)
