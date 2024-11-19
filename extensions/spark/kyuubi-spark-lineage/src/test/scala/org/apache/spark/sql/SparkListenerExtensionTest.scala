@@ -17,7 +17,6 @@
 
 package org.apache.spark.sql
 
-import org.apache.hadoop.hive.conf.HiveConf.ConfVars
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.internal.StaticSQLConf
 import org.apache.spark.util.Utils
