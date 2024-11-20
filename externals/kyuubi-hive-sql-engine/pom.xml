@@ -93,6 +93,10 @@
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-yarn-registry</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>net.shibboleth.tool</groupId>
+                    <artifactId>xmlsectool</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
