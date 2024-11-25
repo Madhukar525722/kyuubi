@@ -20,7 +20,6 @@ package org.apache.kyuubi.engine.hive.operation
 import java.util.List
 
 import org.apache.hadoop.hive.conf.HiveConf
-import org.apache.hadoop.hive.conf.HiveConf.ConfVars
 
 import org.apache.kyuubi.config.KyuubiConf._
 import org.apache.kyuubi.engine.hive.session.HiveSessionImpl
